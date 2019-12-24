@@ -3,7 +3,11 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  get_places :"https://wiggly-vendor.herokuapp.com/api/v1/getPlaces",
+  location:"https://wiggly-vendor.herokuapp.com/api/v1/getLocation",
+
+
 };
 
 /*
