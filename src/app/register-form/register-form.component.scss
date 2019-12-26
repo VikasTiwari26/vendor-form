@@ -15,8 +15,6 @@
     box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.16);
 }
 
-
-
 .inner_container{
     padding: 20px;
     margin: 20px;
@@ -42,13 +40,10 @@
 
 input {
     width: 96%;
-    padding: 8px;
     display: block;
-    height: 36px;
     background: transparent;
     font-size: 16px;
     border: none;
-    border-bottom: 1px solid #c2c2c2;
 }
 
 mat-form-field{

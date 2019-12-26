@@ -1,9 +1,10 @@
 
 import { Vendor } from './vendor';
 import { RegistrationService } from './../services/registration.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { vendorServices } from '../json/vendor-services';
 import { vendor_type } from '../json/vendor-type';
+import { debounceTime, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-register-form',
@@ -13,12 +14,12 @@ import { vendor_type } from '../json/vendor-type';
 export class RegisterFormComponent implements OnInit {
 
 vendor = new Vendor();
-
+@ViewChild('address',{static:false}) address;
 placeList: any = [];
 services = vendorServices;
 vendors = vendor_type;
 secondary_vendors = vendor_type;
-
+session_id:any="";
 latitude: any;
   longitude: any;
   city: any;
@@ -42,6 +43,7 @@ designations = [
   ) { }
 
   ngOnInit() {
+    this.sessionGenerator();
   }
 
 
@@ -56,23 +58,37 @@ designations = [
     });
   }
 
-  onFocusOut(ev){
-    console.log(ev.target.value);
-    let session_id:any;
-    session_id="asda2341";
-    console.log({ session_id:session_id, query: ev.target.value});
-    this.regService.searchPlaces({session_id:session_id, query: ev.target.value}).subscribe(res => {
+  onFocusOut(value){
+    console.log(value)
+    console.log({ session_id:this.session_id, query:value});
+    this.regService.searchPlaces({session_id:this.session_id, query:value}).subscribe(res => {
       console.log(res);
       this.placeList = res.predictions;
       console.log(this.placeList);
     });
   }
 
+  ngAfterViewInit(){
+    this.address.valueChanges.pipe(
+      debounceTime(500),
+      tap(val => console.log(val))
+    ).subscribe(data => this.onFocusOut(data)) 
+
+}
+sessionGenerator(){
+let text="12343567890qwertyuiopasdfghjklzxcvbnm"
+let session_id="";
+for(let i=0;i<9;i++){
+  session_id=session_id+text.charAt(Math.round(35*Math.random()))
+}
+this.session_id=session_id;
+}
+
   fillData(predictions){
     console.log(predictions);
     this.vendor.address = predictions.description;
     this.placeList = [];
-    this.regService.getLocation({session_id: "dadas", query: this.vendor.address}).subscribe(res => {
+    this.regService.getLocation({session_id: this.session_id, query: this.vendor.address}).subscribe(res => {
         console.log(res.results[0].geometry.location.lat);
         this.latitude = res.results[0].geometry.location.lat;
         this.longitude = res.results[0].geometry.location.lng;
@@ -111,8 +127,12 @@ designations = [
     res => {console.log(res);
             alert(res.msg);
             vendor_reg.reset();
+            this.sessionGenerator()
     },
-    err => {console.log(err); }
+    err => {console.log(err); 
+      this.sessionGenerator()
+    
+    }
     )
 
   //  vendor_reg.reset()
