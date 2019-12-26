@@ -107,6 +107,14 @@ designations = [
    this.vendor.pincode = this.pin_code;
    console.log(this.vendor);
 
+   this.regService.addVendor(this.vendor).subscribe(
+    res => {console.log(res);
+            alert(res.msg);
+            vendor_reg.reset();
+    },
+    err => {console.log(err); }
+    )
+
   //  vendor_reg.reset()
 ; }
 

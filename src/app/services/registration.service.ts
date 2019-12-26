@@ -21,9 +21,15 @@ export class RegistrationService {
   }
 
   getLocation(data):Observable<any>{
-    return this.http.post<any>(environment.location,data).pipe(tap(res=>{
+    return this.http.post<any>(environment.location, data).pipe(tap(res => {
       console.log(res);
-    }))
+    }));
+  }
+
+  addVendor(data):Observable<any>{
+    return this.http.post<any>(environment.addVendor, data).pipe(tap(res => {
+      console.log(res);
+    }));
   }
 
 }

@@ -12,7 +12,7 @@ export class Vendor {
         public primary_type ?: number,
         public secondary_type ?: number,
         public vendor_name ?:string,
-        public vendor_telephone ?: number,
+        public telephone ?: number,
         public address ?: string,
     ){}
 }
