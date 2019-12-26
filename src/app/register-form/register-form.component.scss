@@ -1,12 +1,33 @@
-*{
-    font-family: "FuturaLT";
+.outer_container{
+    display: flex;
+    height: 100%;
+    width:100%;
+    justify-content: center;
+    align-items: center;
 }
 
-form   {
+.main_container {
+    width: 70%;
+    height: 80vh;
+    border-radius: 8px;
+    background: white;
+    border: 1px solid #c2c2c2;
+    box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.16);
+}
+
+
+
+.inner_container{
+    padding: 20px;
+    margin: 20px;
+}
+
+.reg_form{
+    position: relative;
     display: flex;
     flex-direction: column;
-    width:50%;
-    margin:auto;
+    width: 100%;
+    margin-top: 20px;
 }
 
 .logos {
@@ -14,17 +35,24 @@ form   {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    width: 50%;
+    width: 100%;
     margin: auto;
     height: 48px;
 }
 
 input {
-    margin: 2px;
+    width: 96%;
+    padding: 8px;
+    display: block;
     height: 36px;
+    background: transparent;
     font-size: 16px;
     border: none;
-    border-bottom:1px solid black;
+    border-bottom: 1px solid #c2c2c2;
+}
+
+mat-form-field{
+    width:100%;
 }
 
 li {
@@ -38,16 +66,16 @@ li {
 }
 
 img{
-    height: 36px;
+    height: 48px;
 }
 
 button{
-    width: 50%;
-    margin: auto;
-    height: 48px;
+    width: 59%;
+    display: block;
+    margin: 20px auto;
+    height: 36px;
     border-radius: 8px;
-    background: linear-gradient(to top,#ff0066,#eb5959);
+    background: linear-gradient(to top, #ff0066, #eb5959);
     color: #fff;
     border: none;
-    margin-top: 10px;
 }

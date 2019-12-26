@@ -1,34 +1,40 @@
-<div class="logos">
-    <div><img src="assets/logo_2.png" ></div>
-    <div><img src="assets/logo.png"></div>
-</div>
-
-<div class="reg_form">
-    <form name="vendor_reg" #vendor_reg="ngForm" (ngSubmit)="addVendor(vendor_reg)">
-        <input type="text" placeholder="Name" name="name" [(ngModel)]="vendor.name" required>
-        <input type="email" placeholder="Email Id" name="email" [(ngModel)]="vendor.email" required>
-        <input type="tel" placeholder="Phone Number" name="phone" [(ngModel)]="vendor.phone" required>
-        <mat-form-field>
-          <mat-label>Select Primary Vendor Type</mat-label>
-          <mat-select name="primary_type" [(ngModel)]="vendor.primary_type" required>
-           <mat-option (click)="deleteVendor($event)" value="{{item.id}}" *ngFor="let item of vendors ">{{item.name}}</mat-option>
-        </mat-select>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Select Secondary Vendor Type</mat-label>
-          <mat-select multiple name="secondary_type" [(ngModel)]="vendor.secondary_type">
-           <mat-option value="{{item.id}}" *ngFor="let item of secondary_vendors ">{{item.name}}</mat-option>
-        </mat-select>
-        </mat-form-field>
-    
-        <input type="text" autocomplete="off" placeholder="Vendor Name" name="vendor_name" [(ngModel)]="vendor.vendor_name" required>
-        <input (input)="onFocusOut($event)" type="text" list="place" placeholder="Address" name="address" [(ngModel)]="vendor.address" required>
-        <ul *ngIf="placeList.length>0">
-         <li *ngFor="let item of placeList; let i=index" [value]="item.description" (click)="fillData(item)">{{item.description}}</li>
-        </ul>
-         <input class="phone" type="tel" placeholder="Telephone" name="telephone" [(ngModel)]="vendor.telephone">
-    
-        <button type="submit">Submit</button>
-    </form>
-    
+<div class="outer_container">
+    <div class="main_container">
+        <div class="inner_container">
+         <div class="logos">
+             <div><img src="assets/logo_2.png" ></div>
+             <div><img src="assets/logo.png"></div>
+         </div>
+         
+         <div class="reg_form">
+             <form name="vendor_reg" #vendor_reg="ngForm" (ngSubmit)="addVendor(vendor_reg)">
+                 <input type="text" placeholder="Name" name="name" [(ngModel)]="vendor.name" required>
+                 <input type="email" placeholder="Email Id" name="email" [(ngModel)]="vendor.email" required>
+                 <input type="tel" placeholder="Phone Number" name="phone" [(ngModel)]="vendor.phone" required>
+                 <mat-form-field>
+                   <mat-label>Select Primary Vendor Type</mat-label>
+                   <mat-select name="primary_type" [(ngModel)]="vendor.primary_type" required>
+                    <mat-option (click)="deleteVendor($event)" value="{{item.id}}" *ngFor="let item of vendors ">{{item.name}}</mat-option>
+                 </mat-select>
+                 </mat-form-field>
+                 <mat-form-field>
+                   <mat-label>Select Secondary Vendor Type</mat-label>
+                   <mat-select multiple name="secondary_type" [(ngModel)]="vendor.secondary_type">
+                    <mat-option value="{{item.id}}" *ngFor="let item of secondary_vendors ">{{item.name}}</mat-option>
+                 </mat-select>
+                 </mat-form-field>
+             
+                 <input type="text" autocomplete="off" placeholder="Vendor Name" name="vendor_name" [(ngModel)]="vendor.vendor_name" required>
+                 <input (input)="onFocusOut($event)" type="text" list="place" placeholder="Address" name="address" [(ngModel)]="vendor.address" required>
+                 <ul *ngIf="placeList.length>0">
+                  <li *ngFor="let item of placeList; let i=index" [value]="item.description" (click)="fillData(item)">{{item.description}}</li>
+                 </ul>
+                  <input class="phone" type="tel" placeholder="Telephone" name="telephone" [(ngModel)]="vendor.telephone">
+             
+                 <button type="submit">Submit</button>
+             </form>
+             
+         </div>
+        </div>
+     </div>
 </div>
