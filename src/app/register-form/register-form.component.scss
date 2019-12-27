@@ -8,7 +8,7 @@
 
 .main_container {
     width: 70%;
-    height: 80vh;
+    height: fit-content;
     border-radius: 8px;
     background: white;
     border: 1px solid #c2c2c2;
@@ -73,4 +73,29 @@ button{
     background: linear-gradient(to top, #ff0066, #eb5959);
     color: #fff;
     border: none;
+}
+
+@media(max-width: 550px){
+    form{
+        display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+mat-form-field{
+    margin: 10px 0px;
+}
+    
+.logos{
+    height: 24px;
+}
+img{
+    height: 24px;
+}
+.main_container{
+width: 80%;
+}
+button{
+width:70%;
+}
 }

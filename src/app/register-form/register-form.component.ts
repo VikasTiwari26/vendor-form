@@ -5,7 +5,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { vendorServices } from '../json/vendor-services';
 import { vendor_type } from '../json/vendor-type';
 import { debounceTime, tap } from 'rxjs/operators';
-
+import { NgxIndexedDBService } from 'ngx-indexed-db';
+import { Observable, Observer, fromEvent, merge } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-register-form',
   templateUrl: './register-form.component.html',
@@ -38,14 +41,49 @@ designations = [
   {id: 3, name:"Rabbit"},
  ];
 
+ isOnline:boolean=true;
   constructor(
-    private regService: RegistrationService
-  ) { }
+    private regService: RegistrationService,
+    private spinner: NgxSpinnerService,
+    private dbService: NgxIndexedDBService
+  ) { 
+    dbService.currentStore = 'vendors';
+    this.getAllVendors();
+  }
 
   ngOnInit() {
     this.sessionGenerator();
+    this.createOnline$().subscribe(isOnline => {console.log(isOnline);
+      this.isOnline=isOnline;
+    
+    });
+    this.spinner.hide();
   }
 
+addDataToDb(data,vendor_reg){
+let dataToBeAdded= JSON.stringify(data); 
+this.dbService.add({ vendor: data }).then(
+  () => {
+    this.spinner.hide();
+    vendor_reg.reset();
+    alert('Successfull stored locally');
+  },
+  error => {
+      console.log(error);
+      this.spinner.hide();
+
+  }
+);
+}
+  createOnline$() {
+    return merge<boolean>(
+      fromEvent(window, 'offline').pipe(map(() => false)),
+      fromEvent(window, 'online').pipe(map(() => true)),
+      new Observable((sub: Observer<boolean>) => {
+        sub.next(navigator.onLine);
+        sub.complete();
+      }));
+  }
 
   deleteVendor(ev){
     console.log(ev);
@@ -115,28 +153,74 @@ this.session_id=session_id;
   }
 
  addVendor(vendor_reg) {
-   this.vendor.lat = this.latitude;
-   this.vendor.long = this.longitude;
-   this.vendor.city  = this.city;
-   this.vendor.state = this.state;
-   this.vendor.country = this.country;
-   this.vendor.pincode = this.pin_code;
+   this.vendor.lat = this.latitude||0;
+   this.vendor.long = this.longitude||0;
+   this.vendor.city  = this.city||0;
+   this.vendor.state = this.state||0;
+   this.vendor.country = this.country||0;
+   this.vendor.pincode = this.pin_code||0;
    console.log(this.vendor);
+   this.spinner.show();
+   if(this.isOnline){
+    this.addToBackend(this.vendor,vendor_reg);
+   }
+   else{
+     this.addDataToDb(this.vendor,vendor_reg);
+   }
 
-   this.regService.addVendor(this.vendor).subscribe(
+
+ }
+
+ deleteVendorBYKEy(key:number){
+  this.dbService.delete(key).then(
+    () => {
+      console.log('deleted')
+    },
+    error => {
+        console.log(error);
+    }
+);
+}
+addToBackend(data,vendor_reg=null,key=null){
+  this.regService.addVendor(data).subscribe(
     res => {console.log(res);
-            alert(res.msg);
+            if(vendor_reg){
+              alert(res.msg);
+
             vendor_reg.reset();
-            this.sessionGenerator()
+            this.sessionGenerator();
+            this.spinner.hide();
+          }
+          else{
+            this.deleteVendorBYKEy(key);
+          }
     },
     err => {console.log(err); 
+      if(vendor_reg){
+
       this.sessionGenerator()
-    
+      this.spinner.hide();
+      }
     }
     )
+}
+ getAllVendors(){
+   this.dbService.getAll().then(Res=>{
+     console.log(Res);
+    Res.forEach(element => {
+      this.addToBackend(element['vendor'],null,element['id']);
+    });
 
-  //  vendor_reg.reset()
-; }
+   }).catch(Err=>{
+     console.log(Err);
+   })
+ }
+emailValidator(e){
+
+}
+
+phoneValidator(e){
+}
 
 
 }

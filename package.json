@@ -20,7 +20,11 @@
     "@angular/material": "^8.2.3",
     "@angular/platform-browser": "~8.2.4",
     "@angular/platform-browser-dynamic": "~8.2.4",
+    "@angular/pwa": "^0.803.21",
     "@angular/router": "~8.2.4",
+    "@angular/service-worker": "~8.2.4",
+    "ngx-indexed-db": "^3.0.12",
+    "ngx-spinner": "^8.1.0",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"
